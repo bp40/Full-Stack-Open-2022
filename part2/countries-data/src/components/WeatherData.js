@@ -1,10 +1,19 @@
 import axios from "axios";
+import { useEffect, useState } from "react"
 
 const WeatherData = ({ currentCountryData }) => {
 	const apiKey = process.env.REACT_APP_API_KEY;
 
-	//axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&appid=${apiKey}`)
-	//	.then((res) => {})
+	const [iconCode, setIconCode] = useState('');
+
+	useEffect(() => {
+
+		axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${currentCountryData.capital}&appid=${apiKey}`)
+			.then((res) => res.data.weather[0].icon)
+			.then((iconCode) => setIconCode(iconCode))
+
+	})
+	
 
 	const languagesList = Object.values(currentCountryData.languages)
 
@@ -21,6 +30,9 @@ const WeatherData = ({ currentCountryData }) => {
                     return(<li key={lang}> {lang} </li>)
                 })}
             </ul>
+			{iconCode !== '' 
+			&& <img alt="weather icon" src={`http://openweathermap.org/img/wn/${iconCode}@2x.png`}/>}
+			
 			
 		</div>
 	);
