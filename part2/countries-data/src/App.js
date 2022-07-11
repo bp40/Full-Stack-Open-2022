@@ -9,8 +9,6 @@ function App() {
 	const [filterTerm, setFilterTerm] = useState("");
 	const [displayCountriesList, setdisplayCountriesList] = useState(true)
 
-	const apiKey = process.env.REACT_APP_API_KEY
-
 	useEffect(() => {
 		axios.get("https://restcountries.com/v3.1/all").then((res) => {
 			setCountries(res.data);
