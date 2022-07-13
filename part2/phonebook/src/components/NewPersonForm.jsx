@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import personsService from '../services/personsService';
 
-function NewPersonForm({ persons, setPersons }) {
+function NewPersonForm({ persons, setPersons, setAlertMessage }) {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
 
@@ -44,10 +44,30 @@ function NewPersonForm({ persons, setPersons }) {
             setPersons(data);
           });
         });
+        setAlertMessage({
+          message: `Edited ${newPersonObject.name}`,
+          isError: false,
+        });
+        setTimeout(() => {
+          setAlertMessage({
+            message: '',
+            isError: false,
+          });
+        }, 5000);
       }
     } else {
       setPersons(persons.concat(newPersonObject));
       personsService.create(newPersonObject);
+      setAlertMessage({
+        message: `Added ${newPersonObject.name}`,
+        isError: false,
+      });
+      setTimeout(() => {
+        setAlertMessage({
+          message: '',
+          isError: false,
+        });
+      }, 5000);
     }
   };
 

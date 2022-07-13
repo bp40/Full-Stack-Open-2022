@@ -1,7 +1,7 @@
 import React from 'react';
 import personsService from '../services/personsService';
 
-function Person({ person, setPersons }) {
+function Person({ person, setPersons, setAlertMessage }) {
   const handleDelete = (event) => {
     const removeIndex = event.target.value;
     // eslint-disable-next-line no-alert
@@ -10,7 +10,18 @@ function Person({ person, setPersons }) {
         personsService.getAll().then((data) => {
           setPersons(data);
         });
-      });
+      }).catch((() => {
+        setAlertMessage({
+          message: `${person.name} is already removed`,
+          isError: true,
+        });
+        setTimeout(() => {
+          setAlertMessage({
+            message: '',
+            isError: false,
+          });
+        }, 5000);
+      }));
     }
   };
 
