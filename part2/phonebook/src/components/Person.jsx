@@ -32,7 +32,7 @@ function Person({ person, setPersons, setAlertMessage }) {
         {' '}
         {person.number}
       </span>
-      <button type="button" onClick={handleDelete} value={person.id}>
+      <button type="button" onClick={handleDelete} value={person.contactId}>
         delete
       </button>
     </div>

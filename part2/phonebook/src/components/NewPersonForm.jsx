@@ -9,7 +9,7 @@ function NewPersonForm({ persons, setPersons, setAlertMessage }) {
   const checkNameExist = (name) => {
     for (let i = 0; i < persons.length; i += 1) {
       if (persons[i].name === name) {
-        return persons[i].id;
+        return persons[i].contactId;
       }
     }
     return -1;
@@ -29,17 +29,17 @@ function NewPersonForm({ persons, setPersons, setAlertMessage }) {
       id: persons.length + 1,
     };
 
-    const indexIfPersonExist = checkNameExist(newPersonObject.name);
+    const contactIdIfExist = checkNameExist(newPersonObject.name);
 
-    if (indexIfPersonExist !== -1) {
+    if (contactIdIfExist !== -1) {
       if (
         // eslint-disable-next-line no-alert
         window.confirm(
           `${newPersonObject.name} is already added. Replace with new info?`,
         )
       ) {
-        newPersonObject.id = indexIfPersonExist + 1;
-        personsService.update(indexIfPersonExist, newPersonObject).then(() => {
+        newPersonObject.id = contactIdIfExist;
+        personsService.update(contactIdIfExist, newPersonObject).then(() => {
           personsService.getAll().then((data) => {
             setPersons(data);
           });
