@@ -57,17 +57,36 @@ function NewPersonForm({ persons, setPersons, setAlertMessage }) {
       }
     } else {
       setPersons(persons.concat(newPersonObject));
-      personsService.create(newPersonObject);
-      setAlertMessage({
-        message: `Added ${newPersonObject.name}`,
-        isError: false,
-      });
-      setTimeout(() => {
-        setAlertMessage({
-          message: '',
-          isError: false,
+      personsService.create(newPersonObject)
+        .then(() => {
+          setAlertMessage({
+            message: `Added ${newPersonObject.name}`,
+            isError: false,
+          });
+          setTimeout(() => {
+            setAlertMessage({
+              message: '',
+              isError: false,
+            });
+          }, 5000);
+        })
+        .catch((error) => {
+          console.log(error.response.data.error);
+
+          setAlertMessage({
+            message: error.response.data.error,
+            isError: true,
+          });
+          setTimeout(() => {
+            setAlertMessage({
+              message: '',
+              isError: false,
+            });
+          }, 5000);
         });
-      }, 5000);
+      personsService.getAll().then((data) => {
+        setPersons(data);
+      });
     }
   };
 
