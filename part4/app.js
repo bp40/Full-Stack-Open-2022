@@ -59,4 +59,32 @@ app.post('/api/blogs', (request, response) => {
         })
 })
 
+app.delete('/api/blogs', (request, response) => {
+    info('DELETE /api/blogs')
+
+    const body = request.body
+
+    //TODO: error on invalid json
+
+    if (!body.title || !body.author || !body.url) {
+        error("incomplete DELETE request")
+        return response.status(400).json({
+            error: 'title, author, or url missing'
+        })
+    }
+
+    Blog.deleteOne({
+        title: body.title,
+        author: body.author,
+        url: body.url
+    }).then((numDeleted => {
+        info(`delete ${numDeleted} blog entry`);
+        response.status(204).end()
+    })).catch(err => {
+        error('error: none deleted')
+        response.status(500).end()
+    })
+
+})
+
 module.exports = app
