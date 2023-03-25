@@ -3,7 +3,6 @@ const Blog = require('../models/Blog')
 const {info, error} = require("../utils/logger");
 
 blogsRouter.get('/', (request, response) => {
-    info("GET /api/blogs ")
     Blog
         .find({})
         .then(blogs => {
@@ -12,7 +11,6 @@ blogsRouter.get('/', (request, response) => {
 })
 
 blogsRouter.post('/', (request, response, next) => {
-    info("POST /api/blogs")
     const body = request.body
 
     //TODO: error on invalid json
@@ -37,8 +35,6 @@ blogsRouter.post('/', (request, response, next) => {
 })
 
 blogsRouter.delete('/', (request, response, next) => {
-    info('DELETE /api/blogs')
-
     const body = request.body
 
     //TODO: error on invalid json
@@ -54,8 +50,7 @@ blogsRouter.delete('/', (request, response, next) => {
         title: body.title,
         author: body.author,
         url: body.url
-    }).then((numDeleted => {
-        info(`delete ${numDeleted} blog entry`);
+    }).then((() => {
         response.status(204).end()
     })).catch(error => next(error))
 
