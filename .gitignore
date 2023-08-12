@@ -1,3 +1,5 @@
 .idea
 part2/countries-data/.env
+part4/.env
+.env
 node_modules
