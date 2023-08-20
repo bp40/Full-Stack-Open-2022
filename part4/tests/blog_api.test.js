@@ -4,7 +4,7 @@ const app = require('../app')
 
 const api = supertest(app)
 
-test('blogs apu return correct number of blogs', async () => {
+test('blogs api return correct number of blogs', async () => {
     await api
         .get('/api/blogs')
         .expect(200)
