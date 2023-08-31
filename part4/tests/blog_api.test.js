@@ -51,6 +51,7 @@ test('blogs api return correct number of blogs', async () => {
     expect(response.body).toHaveLength(initialBlogs.length)
 }, 10000)
 
+//4.9
 test('id exists (not _id)', async () => {
     const response = await api
         .get('/api/blogs')
@@ -58,6 +59,30 @@ test('id exists (not _id)', async () => {
         .expect('Content-Type', /application\/json/)
     expect(response.body[0].id).toBeDefined()
 }, 10000)
+
+//4.10
+
+test("post request successfully create blog", async () => {
+
+    const requestJSON = {
+        title: "testTitle",
+        author: "testAuthor",
+        url: "testURL"
+    }
+
+    const requestPOST = await api
+        .post('/api/blogs')
+        .send(requestJSON)
+
+    const response = await api
+        .get('/api/blogs')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    expect(response.body).toHaveLength(initialBlogs.length + 1)
+
+}, 10000)
+
 
 afterAll(async () => {
     await mongoose.connection.close()
